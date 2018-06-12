@@ -6,12 +6,12 @@ from aiohttp import web
 from aiohttp_jinja2 import render_template as render
 
 
+ROOT = Path(__file__).parent.resolve()
+
+
 def pk(*args):
     print(args)
     return args[-1]
-
-
-ROOT = Path(__file__).parent.resolve()
 
 
 async def hello(request):
