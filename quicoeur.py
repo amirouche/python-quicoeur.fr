@@ -14,12 +14,12 @@ def pk(*args):
     return args[-1]
 
 
-async def hello(request):
+async def index(request):
     return render('index.jinja2', request, dict())
 
 
 app = web.Application()
 aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(str(ROOT / 'templates')))
 
-app.add_routes([web.get('/', hello)])
+app.add_routes([web.get('/', index)])
 web.run_app(app)
