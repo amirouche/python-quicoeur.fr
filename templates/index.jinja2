@@ -7,4 +7,16 @@
     <h1 class="display-4">Quicoeur ♥</h1>
     <p class="lead">Ephemeral forum (and example aiohttp + jinja2 application)</p>
   </div>
+  {% for message in messages %}
+    <div class="message">
+      <h2>{{ message['title'] }}</h2>
+      <p>{{ message['body'] }}</p>
+    </div>
+  {% endfor %}
+  <hr/>
+  <form method="GET" action="/new">
+    <div class="form-group">
+      <input type="submit" value="nouveau ♥" class="form-control"></input>
+    </div>
+  </form>
 {% endblock %}

@@ -15,11 +15,33 @@ def pk(*args):
 
 
 async def index(request):
-    return render('index.jinja2', request, dict())
+    messages = request.app['messages']
+    return render('index.jinja2', request, dict(messages=messages))
+
+
+async def new_get(request):
+    return render('new.jinja2', request, dict())
+
+
+async def new_post(request):
+    data = await request.post()
+    assert data.get('title')
+    assert data.get('body')
+    request.app['messages'].append(data)
+    raise web.HTTPFound('/')
 
 
 app = web.Application()
-aiohttp_jinja2.setup(app, loader=jinja2.FileSystemLoader(str(ROOT / 'templates')))
+app['messages'] = list()
+
+aiohttp_jinja2.setup(
+    app,
+    loader=jinja2.FileSystemLoader(str(ROOT / 'templates'))
+)
+
 
 app.add_routes([web.get('/', index)])
+app.add_routes([web.get('/new', new_get)])
+app.add_routes([web.post('/new', new_post)])
+app.add_routes([web.static('/static', str(ROOT / 'static'), show_index=True)])
 web.run_app(app)
